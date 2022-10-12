@@ -22,3 +22,10 @@ resource "azurerm_resource_group" "rgavd" {
   name = "RG_VirtualDesktop"
   location = var.location
 }
+
+module "vnet" {
+  source = "./Network"
+  vnet_address_space = var.vnet_address_space
+  location = var.location
+}
+
