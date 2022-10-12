@@ -3,4 +3,7 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = "RG_Networking"
   name = "VN_Core"
   location = var.location
+  depends_on = [
+    azurerm_resource_group.RG_Networking
+  ]
 }
