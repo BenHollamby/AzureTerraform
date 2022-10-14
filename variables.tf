@@ -7,3 +7,35 @@ variable "vnet_address_space" {
   description = "vnet"
   default = ["10.0.0.0/16"]
 }
+
+variable "sub_Protected" {
+  description = "protected subnet"
+  default = "10.0.10.0/24"
+}
+
+variable "sub_External" {
+  description = "protected subnet"
+  default = "10.0.11.0/24"
+}
+
+variable "sub_Internal" {
+  description = "protected subnet"
+  default = "10.0.12.0/24"
+}
+
+variable "sub_Storage" {
+  description = "protected subnet"
+  default = "10.0.13.0/24"
+}
+
+variable "sub_VirtualDesktop" {
+  description = "protected subnet"
+  default = "10.0.14.0/24"
+}
+
+variable "sub_Server" {
+  description = "protected subnet"
+  default = "10.0.15.0/24"
+}
+
+

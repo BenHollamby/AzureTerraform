@@ -6,31 +6,31 @@ resource "azurerm_virtual_network" "vnet" {
 
   subnet {
     name           = "sub_Protected"
-    address_prefix = "10.0.1.0/24"
+    address_prefix = var.sub_Protected
   }
 
   subnet {
     name           = "sub_External"
-    address_prefix = "10.0.2.0/24"
+    address_prefix = var.sub_External
   }
 
   subnet {
     name           = "sub_Internal"
-    address_prefix = "10.0.3.0/24"
+    address_prefix = var.sub_Internal
   }
 
   subnet {
     name           = "sub_Storage"
-    address_prefix = "10.0.4.0/24"
+    address_prefix = var.sub_Storage
   }
 
   subnet {
     name           = "sub_VirtualDesktop"
-    address_prefix = "10.0.5.0/24"
+    address_prefix = var.sub_VirtualDesktop
   }
 
   subnet {
     name           = "sub_Server"
-    address_prefix = "10.0.6.0/24"
+    address_prefix = var.sub_Server
   }
 }
