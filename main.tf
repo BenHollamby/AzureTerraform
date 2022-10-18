@@ -34,5 +34,23 @@ module "nsg" {
   ]
 }
 
+module "routetable" {
+  source = "./RouteTable"
+  location = var.location
+  internal_next_hop = var.internal_next_hop
 
+  depends_on = [
+    module.resourcegroups,
+    module.vnet
+  ]
+}
 
+data "azurerm_subnet" "testsubnet" {
+  name = "sub_Internal"
+  virtual_network_name = "vnet"
+  resource_group_name = "RG_Networking"
+}
+
+output "subnet_id" {
+  value = data.azurerm_subnet.testsubnet.id
+}

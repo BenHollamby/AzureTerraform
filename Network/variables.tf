@@ -29,3 +29,4 @@ variable "sub_VirtualDesktop" {
 variable "sub_Server" {
   description = "protected subnet"
 }
+
