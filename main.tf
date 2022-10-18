@@ -1,26 +1,11 @@
-resource "azurerm_resource_group" "rgbackup" {
-  name = "RG_Backup"
+module "resourcegroups" {
+  source = "./ResourceGroups"
   location = var.location
-}
-
-resource "azurerm_resource_group" "rgserver" {
-  name = "RG_Server"
-  location = var.location
-}
-
-resource "azurerm_resource_group" "rgnetwork" {
-  name = "RG_Networking"
-  location = var.location
-}
-
-resource "azurerm_resource_group" "rgstorage" {
-  name = "RG_Storage"
-  location = var.location
-}
-
-resource "azurerm_resource_group" "rgavd" {
-  name = "RG_VirtualDesktop"
-  location = var.location
+  rgname_backup = var.rgname_backup
+  rgname_networking = var.rgname_networking
+  rgname_server = var.rgname_server
+  rgname_storage = var.rgname_storage
+  rgname_virtualdesktop = var.rgname_virtualdesktop
 }
 
 module "vnet" {
@@ -33,8 +18,9 @@ module "vnet" {
   sub_Storage = var.sub_Storage
   sub_VirtualDesktop = var.sub_VirtualDesktop
   sub_Server = var.sub_Server
+  
   depends_on = [
-    azurerm_resource_group.rgnetwork
+    module.resourcegroups
   ]
 }
 

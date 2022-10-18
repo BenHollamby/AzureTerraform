@@ -1,3 +1,23 @@
+variable "rgname_backup" {
+  default = "RG_Backup"
+}
+
+variable "rgname_networking" {
+  default = "RG_Networking"
+}
+
+variable "rgname_server" {
+  default = "RG_Server"
+}
+
+variable "rgname_storage" {
+  default = "RG_Storage"
+}
+
+variable "rgname_virtualdesktop" {
+  default = "RG_VirtualDesktop"
+}
+
 variable "location" {
     default     = "australiasoutheast"
     description = "location of resources"
