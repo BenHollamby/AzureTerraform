@@ -38,9 +38,19 @@ variable "sub_External" {
   default = "10.0.11.0/24"
 }
 
+variable "external_next_hop" {
+  description = "next hop IP external subnet"
+  default = "10.0.11.4"
+}
+
 variable "sub_Internal" {
   description = "protected subnet"
   default = "10.0.12.0/24"
+}
+
+variable "internal_next_hop" {
+  description = "next hop internal subnet"
+  default = "10.0.12.4"
 }
 
 variable "sub_Storage" {

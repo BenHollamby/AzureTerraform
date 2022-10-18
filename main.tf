@@ -24,5 +24,15 @@ module "vnet" {
   ]
 }
 
+module "nsg" {
+  source = "./NSG"
+  location = var.location
+  external_next_hop = var.external_next_hop
+
+  depends_on = [
+    module.resourcegroups
+  ]
+}
+
 
 

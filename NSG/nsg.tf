@@ -12,7 +12,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "*"
     source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    destination_address_prefix = var.external_next_hop
   }
 
   security_rule {
@@ -24,7 +24,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "11443"
     source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    destination_address_prefix = var.external_next_hop
   }
 
   security_rule {
@@ -36,7 +36,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "*"
     source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    destination_address_prefix = var.external_next_hop
   }
 
   security_rule {
@@ -48,7 +48,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "9443"
     source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    destination_address_prefix = var.external_next_hop
   }
 
   security_rule {
