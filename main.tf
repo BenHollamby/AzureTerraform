@@ -18,6 +18,7 @@ module "vnet" {
   sub_Storage = var.sub_Storage
   sub_VirtualDesktop = var.sub_VirtualDesktop
   sub_Server = var.sub_Server
+  internal_next_hop = var.internal_next_hop
   
   depends_on = [
     module.resourcegroups
@@ -31,16 +32,5 @@ module "nsg" {
 
   depends_on = [
     module.resourcegroups
-  ]
-}
-
-module "routetable" {
-  source = "./RouteTable"
-  location = var.location
-  internal_next_hop = var.internal_next_hop
-
-  depends_on = [
-    module.resourcegroups,
-    module.vnet
   ]
 }

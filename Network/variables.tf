@@ -30,3 +30,6 @@ variable "sub_Server" {
   description = "protected subnet"
 }
 
+variable "internal_next_hop" {
+}
+

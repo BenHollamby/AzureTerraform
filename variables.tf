@@ -67,5 +67,3 @@ variable "sub_Server" {
   description = "protected subnet"
   default = "10.0.15.0/24"
 }
-
-
