@@ -19,17 +19,16 @@ module "vnet" {
   sub_VirtualDesktop = var.sub_VirtualDesktop
   sub_Server = var.sub_Server
   internal_next_hop = var.internal_next_hop
+  external_next_hop = var.external_next_hop
   
   depends_on = [
     module.resourcegroups
   ]
 }
 
-module "nsg" {
-  source = "./NSG"
+module "storage" {
+  source = "./Storage"
   location = var.location
-  external_next_hop = var.external_next_hop
-
   depends_on = [
     module.resourcegroups
   ]

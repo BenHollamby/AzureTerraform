@@ -8,7 +8,7 @@ resource "azurerm_virtual_network" "vnet" {
 resource "azurerm_subnet" "ProtectedSubnet" {
   name           = "sub_Protected"
   resource_group_name = "RG_Networking"
-  address_prefix = var.sub_Protected
+  address_prefixes = [var.sub_Protected]
   virtual_network_name = azurerm_virtual_network.vnet.name
 
 }
@@ -16,7 +16,7 @@ resource "azurerm_subnet" "ProtectedSubnet" {
 resource "azurerm_subnet" "ExternalSubnet" {
   name           = "sub_External"
   resource_group_name = "RG_Networking"
-  address_prefix = var.sub_External
+  address_prefixes = [var.sub_External]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
 }
@@ -24,7 +24,7 @@ resource "azurerm_subnet" "ExternalSubnet" {
 resource "azurerm_subnet" "InternalSubnet" {
   name           = "sub_Internal"
   resource_group_name = "RG_Networking"
-  address_prefix = var.sub_Internal
+  address_prefixes = [var.sub_Internal]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
 }
@@ -32,7 +32,7 @@ resource "azurerm_subnet" "InternalSubnet" {
 resource "azurerm_subnet" "StorageSubnet" {
   name           = "sub_Storage"
   resource_group_name = "RG_Networking"
-  address_prefix = var.sub_Storage
+  address_prefixes = [var.sub_Storage]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
 }
@@ -40,7 +40,7 @@ resource "azurerm_subnet" "StorageSubnet" {
 resource "azurerm_subnet" "VirtualDesktopSubnet" {
   name           = "sub_VirtualDesktop"
   resource_group_name = "RG_Networking"
-  address_prefix = var.sub_VirtualDesktop
+  address_prefixes = [var.sub_VirtualDesktop]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
 }
@@ -48,7 +48,7 @@ resource "azurerm_subnet" "VirtualDesktopSubnet" {
 resource "azurerm_subnet" "ServerSubnet" {
   name           = "sub_Server"
   resource_group_name = "RG_Networking"
-  address_prefix = var.sub_Server
+  address_prefixes = [var.sub_Server]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
 }
@@ -101,4 +101,110 @@ resource "azurerm_subnet_route_table_association" "StorageAssociation" {
     azurerm_virtual_network.vnet,
     azurerm_route_table.routetable
   ]
+}
+
+resource "azurerm_public_ip" "FGTPublicIp" {
+  name                = "FGT-Public-IP"
+  location            = var.location
+  resource_group_name = "RG_Networking"
+  allocation_method   = "Static"
+}
+
+resource "azurerm_network_interface" "fgtextport1" {
+  name                = "EXT-fgtport1"
+  location            = var.location
+  resource_group_name = "RG_Networking"
+
+  ip_configuration {
+    name                          = "ext-ipconfig1"
+    subnet_id                     = azurerm_subnet.ExternalSubnet.id
+    private_ip_address_allocation = "Dynamic"
+    primary                       = true
+    public_ip_address_id          = azurerm_public_ip.FGTPublicIp.id
+  }
+}
+
+resource "azurerm_network_interface" "fgtport2" {
+  name                 = "INT-fgtport2"
+  location             = var.location
+  resource_group_name  = "RG_Networking"
+  enable_ip_forwarding = true
+
+  ip_configuration {
+    name                          = "int-ipconfig1"
+    subnet_id                     = azurerm_subnet.InternalSubnet.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+resource "azurerm_network_security_group" "nsg" {
+  name = "NSG_Firewall_External"
+  resource_group_name = "RG_Networking"
+  location = var.location
+
+  security_rule {
+    name                       = "All_Traffic"
+    priority                   = 140
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = var.external_next_hop
+  }
+
+  security_rule {
+    name                       = "Allow_FW_Management"
+    priority                   = 150
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "11443"
+    source_address_prefix      = "*"
+    destination_address_prefix = var.external_next_hop
+  }
+
+  security_rule {
+    name                       = "Allow_ICMP"
+    priority                   = 151
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Icmp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = var.external_next_hop
+  }
+
+  security_rule {
+    name                       = "Fortigate_SSL_VPN"
+    priority                   = 180
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "9443"
+    source_address_prefix      = "*"
+    destination_address_prefix = var.external_next_hop
+  }
+
+  security_rule {
+    name                       = "Deny_All"
+    priority                   = 4096
+    direction                  = "Inbound"
+    access                     = "Deny"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+# Connect the security group to the network interfaces
+resource "azurerm_network_interface_security_group_association" "port1nsg" {
+  network_interface_id      = azurerm_network_interface.fgtextport1.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
 }

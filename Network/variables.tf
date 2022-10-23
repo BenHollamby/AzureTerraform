@@ -33,3 +33,6 @@ variable "sub_Server" {
 variable "internal_next_hop" {
 }
 
+variable "external_next_hop" {
+
+}
