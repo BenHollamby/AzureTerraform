@@ -25,11 +25,3 @@ module "vnet" {
     module.resourcegroups
   ]
 }
-
-module "storage" {
-  source = "./Storage"
-  location = var.location
-  depends_on = [
-    module.resourcegroups
-  ]
-}

@@ -36,3 +36,9 @@ variable "internal_next_hop" {
 variable "external_next_hop" {
 
 }
+
+variable "bootstrap-fgtvm" {
+  // Change to your own path
+  type    = string
+  default = "./Network/fgtvm.conf"
+}
