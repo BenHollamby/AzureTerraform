@@ -232,7 +232,7 @@ resource "azurerm_virtual_machine" "fgtvm" {
   resource_group_name          = "RG_Networking"
   network_interface_ids        = [azurerm_network_interface.fgtextport1.id, azurerm_network_interface.fgtport2.id]
   primary_network_interface_id = azurerm_network_interface.fgtextport1.id
-  vm_size                      = "Standard_F4"
+  vm_size                      = "Standard_F4s"
 
   delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
@@ -245,7 +245,7 @@ resource "azurerm_virtual_machine" "fgtvm" {
   }
 
   plan {
-    name      = "payg"
+    name      = "fortinet_fg-vm"
     publisher = "fortinet"
     product   = "fortinet_fortigate-vm_v5"
   }
