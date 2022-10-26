@@ -67,9 +67,9 @@ resource "azurerm_route_table" "routetable" {
   } ]
 }
 
-resource "azurerm_subnet_route_table_association" "ExternalAssociation" {
+resource "azurerm_subnet_route_table_association" "VirtualDesktopAssociation" {
   route_table_id = azurerm_route_table.routetable.id
-  subnet_id = azurerm_subnet.ExternalSubnet.id
+  subnet_id = azurerm_subnet.VirtualDesktopSubnet.id
   depends_on = [
     azurerm_virtual_network.vnet,
     azurerm_route_table.routetable
@@ -207,6 +207,10 @@ resource "azurerm_network_security_group" "nsg" {
 resource "azurerm_network_interface_security_group_association" "port1nsg" {
   network_interface_id      = azurerm_network_interface.fgtextport1.id
   network_security_group_id = azurerm_network_security_group.nsg.id
+  depends_on = [
+    azurerm_network_interface.fgtextport1,
+    azurerm_network_security_group.nsg
+  ]
 }
 
 resource "random_id" "randomId" {
@@ -288,4 +292,15 @@ resource "azurerm_virtual_machine" "fgtvm" {
   tags = {
     environment = "Terraform Demo"
   }
+
+  depends_on = [
+    azurerm_subnet.ExternalSubnet,
+    azurerm_route_table.routetable,
+    azurerm_public_ip.FGTPublicIp,
+    azurerm_network_interface.fgtextport1,
+    azurerm_network_interface.fgtport2,
+    azurerm_network_security_group.nsg,
+    azurerm_network_interface_security_group_association.port1nsg,
+    azurerm_storage_account.fgtstorageaccount
+  ]
 }
