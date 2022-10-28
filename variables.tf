@@ -21,57 +21,57 @@ variable "rgname_virtualdesktop" {
 
 variable "location" {
     default     = "australiasoutheast"
-    description = "location of resources"
+    description = "Location of Resources"
 }
 
 
 // VNET
 variable "vnet_address_space" {
-  description = "vnet"
+  description = "VNet Address Space"
   default = ["10.0.0.0/16"]
 }
 
 
 // SUBNETS
 variable "sub_Protected" {
-  description = "protected subnet"
+  description = "Protected Subnet"
   default = "10.0.10.0/24"
 }
 
 variable "sub_External" {
-  description = "protected subnet"
+  description = "External Subnet"
   default = "10.0.11.0/24"
 }
 
 variable "sub_Internal" {
-  description = "protected subnet"
+  description = "Internal Subnet"
   default = "10.0.12.0/24"
 }
 
 variable "sub_Storage" {
-  description = "protected subnet"
+  description = "Storage Subnet"
   default = "10.0.13.0/24"
 }
 
 variable "sub_VirtualDesktop" {
-  description = "protected subnet"
+  description = "Virtual Desktop Subnet"
   default = "10.0.14.0/24"
 }
 
 variable "sub_Server" {
-  description = "protected subnet"
+  description = "Server Subnet"
   default = "10.0.15.0/24"
 }
 
 
 // NEXT HOP
 variable "internal_next_hop" {
-  description = "next hop internal subnet"
+  description = "Next Hop Internal Subnet"
   default = "10.0.12.4"
 }
 
 variable "external_next_hop" {
-  description = "next hop IP external subnet"
+  description = "Next Hop IP External Subnet"
   default = "10.0.11.4"
 }
 

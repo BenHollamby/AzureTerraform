@@ -20,6 +20,7 @@ module "vnet" {
   sub_Server = var.sub_Server
   internal_next_hop = var.internal_next_hop
   external_next_hop = var.external_next_hop
+  rgname_networking = var.rgname_networking
   
   depends_on = [
     module.resourcegroups

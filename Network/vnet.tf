@@ -1,13 +1,13 @@
 resource "azurerm_virtual_network" "vnet" {
   address_space = var.vnet_address_space
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   name = "VN_Core"
   location = var.location
 }
 
 resource "azurerm_subnet" "ProtectedSubnet" {
   name           = "sub_Protected"
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   address_prefixes = [var.sub_Protected]
   virtual_network_name = azurerm_virtual_network.vnet.name
 
@@ -15,7 +15,7 @@ resource "azurerm_subnet" "ProtectedSubnet" {
 
 resource "azurerm_subnet" "ExternalSubnet" {
   name           = "sub_External"
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   address_prefixes = [var.sub_External]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
@@ -23,7 +23,7 @@ resource "azurerm_subnet" "ExternalSubnet" {
 
 resource "azurerm_subnet" "InternalSubnet" {
   name           = "sub_Internal"
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   address_prefixes = [var.sub_Internal]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
@@ -31,7 +31,7 @@ resource "azurerm_subnet" "InternalSubnet" {
 
 resource "azurerm_subnet" "StorageSubnet" {
   name           = "sub_Storage"
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   address_prefixes = [var.sub_Storage]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
@@ -39,7 +39,7 @@ resource "azurerm_subnet" "StorageSubnet" {
 
 resource "azurerm_subnet" "VirtualDesktopSubnet" {
   name           = "sub_VirtualDesktop"
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   address_prefixes = [var.sub_VirtualDesktop]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
@@ -47,7 +47,7 @@ resource "azurerm_subnet" "VirtualDesktopSubnet" {
 
 resource "azurerm_subnet" "ServerSubnet" {
   name           = "sub_Server"
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   address_prefixes = [var.sub_Server]
   virtual_network_name = azurerm_virtual_network.vnet.name
   
@@ -56,7 +56,7 @@ resource "azurerm_subnet" "ServerSubnet" {
 resource "azurerm_route_table" "routetable" {
   name = "Route-Table"
   location = var.location
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   disable_bgp_route_propagation = false
 
   route = [ {
@@ -106,14 +106,14 @@ resource "azurerm_subnet_route_table_association" "StorageAssociation" {
 resource "azurerm_public_ip" "FGTPublicIp" {
   name                = "FGT-Public-IP"
   location            = var.location
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   allocation_method   = "Static"
 }
 
 resource "azurerm_network_interface" "fgtextport1" {
   name                = "EXT-fgtport1"
   location            = var.location
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
 
   ip_configuration {
     name                          = "ext-ipconfig1"
@@ -127,7 +127,7 @@ resource "azurerm_network_interface" "fgtextport1" {
 resource "azurerm_network_interface" "fgtport2" {
   name                 = "INT-fgtport2"
   location             = var.location
-  resource_group_name  = "RG_Networking"
+  resource_group_name  = var.rgname_networking
   enable_ip_forwarding = true
 
   ip_configuration {
@@ -139,7 +139,7 @@ resource "azurerm_network_interface" "fgtport2" {
 
 resource "azurerm_network_security_group" "nsg" {
   name = "NSG_Firewall_External"
-  resource_group_name = "RG_Networking"
+  resource_group_name = var.rgname_networking
   location = var.location
 
   security_rule {
@@ -215,7 +215,7 @@ resource "azurerm_network_interface_security_group_association" "port1nsg" {
 
 resource "random_id" "randomId" {
   keepers = {
-    resource_group = "RG_Networking"
+    resource_group = var.rgname_networking
   }
 
   byte_length = 8
@@ -223,7 +223,7 @@ resource "random_id" "randomId" {
 
 resource "azurerm_storage_account" "fgtstorageaccount" {
   name                     = "diag${random_id.randomId.hex}"
-  resource_group_name      = "RG_Networking"
+  resource_group_name      = var.rgname_networking
   location                 = var.location
   account_replication_type = "LRS"
   account_tier             = "Standard"
@@ -233,7 +233,7 @@ resource "azurerm_virtual_machine" "fgtvm" {
   count                        = 1
   name                         = "fgtvm"
   location                     = "australiasoutheast"
-  resource_group_name          = "RG_Networking"
+  resource_group_name          = var.rgname_networking
   network_interface_ids        = [azurerm_network_interface.fgtextport1.id, azurerm_network_interface.fgtport2.id]
   primary_network_interface_id = azurerm_network_interface.fgtextport1.id
   vm_size                      = "Standard_F4s"
