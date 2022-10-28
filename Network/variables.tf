@@ -26,19 +26,13 @@ variable "sub_VirtualDesktop" {
   description = "protected subnet"
 }
 
-variable "sub_Server" {
-  description = "protected subnet"
-}
+variable "sub_Server" {}
 
-variable "internal_next_hop" {
-}
+variable "internal_next_hop" {}
 
-variable "external_next_hop" {
-
-}
+variable "external_next_hop" {}
 
 variable "bootstrap-fgtvm" {
-  // Change to your own path
   type    = string
   default = "./Network/fgtvm.conf"
 }
