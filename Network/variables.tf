@@ -40,6 +40,5 @@ variable "bootstrap-fgtvm" {
   default = "./Network/fgtvm.conf"
 }
 
-variable "primary_blob_endpoint" {
-  
-}
+variable "primary_blob_endpoint" {}
+

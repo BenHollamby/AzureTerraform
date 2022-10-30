@@ -36,3 +36,14 @@ module "vnet" {
     module.storage
   ]
 }
+
+module "nsg" {
+  source = "./Network/NSG"
+  rgname_networking = var.rgname_networking
+  location = var.location
+  extnicid = module.vnet.FGT_EXT_NIC_ID
+  external_next_hop = var.external_next_hop
+  depends_on = [
+    module.vnet
+  ]
+}
