@@ -213,22 +213,6 @@ resource "azurerm_network_interface_security_group_association" "port1nsg" {
   ]
 }
 
-resource "random_id" "randomId" {
-  keepers = {
-    resource_group = var.rgname_networking
-  }
-
-  byte_length = 8
-}
-
-resource "azurerm_storage_account" "fgtstorageaccount" {
-  name                     = "diag${random_id.randomId.hex}"
-  resource_group_name      = var.rgname_networking
-  location                 = var.location
-  account_replication_type = "LRS"
-  account_tier             = "Standard"
-}
-
 resource "azurerm_virtual_machine" "fgtvm" {
   count                        = 1
   name                         = "fgtvm"
@@ -286,7 +270,7 @@ resource "azurerm_virtual_machine" "fgtvm" {
 
   boot_diagnostics {
     enabled     = true
-    storage_uri = azurerm_storage_account.fgtstorageaccount.primary_blob_endpoint
+    storage_uri = var.primary_blob_endpoint
   }
 
   tags = {
@@ -300,7 +284,6 @@ resource "azurerm_virtual_machine" "fgtvm" {
     azurerm_network_interface.fgtextport1,
     azurerm_network_interface.fgtport2,
     azurerm_network_security_group.nsg,
-    azurerm_network_interface_security_group_association.port1nsg,
-    azurerm_storage_account.fgtstorageaccount
+    azurerm_network_interface_security_group_association.port1nsg
   ]
 }

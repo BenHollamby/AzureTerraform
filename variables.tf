@@ -75,5 +75,4 @@ variable "external_next_hop" {
   default = "10.0.11.4"
 }
 
-
 // az vm image terms accept --publisher fortinet --offer fortinet_fortigate-vm_v5 --plan fortinet_fg-vm

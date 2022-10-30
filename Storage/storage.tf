@@ -13,3 +13,7 @@ resource "azurerm_storage_account" "fgtstorageaccount" {
   account_replication_type = "LRS"
   account_tier             = "Standard"
 }
+
+output "storageendpoint" {
+  value = azurerm_storage_account.fgtstorageaccount.primary_blob_endpoint
+}

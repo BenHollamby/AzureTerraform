@@ -8,6 +8,14 @@ module "resourcegroups" {
   rgname_virtualdesktop = var.rgname_virtualdesktop
 }
 
+module "storage" {
+  source = "./Storage"
+  location = var.location
+  depends_on = [
+    module.resourcegroups
+  ]
+}
+
 module "vnet" {
   source = "./Network"
   vnet_address_space = var.vnet_address_space
@@ -21,8 +29,10 @@ module "vnet" {
   internal_next_hop = var.internal_next_hop
   external_next_hop = var.external_next_hop
   rgname_networking = var.rgname_networking
+  primary_blob_endpoint = module.storage.storageendpoint
   
   depends_on = [
-    module.resourcegroups
+    module.resourcegroups,
+    module.storage
   ]
 }
