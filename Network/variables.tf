@@ -1,35 +1,21 @@
 
-variable "vnet_address_space" {
-  description = "vnet"
-}
-variable "location" {
-  description = "location"
-}
+variable "vnet_address_space" {}
 
-variable "sub_Protected" {
-  description = "protected subnet"
-}
+variable "location" {}
 
-variable "sub_External" {
-  description = "protected subnet"
-}
+variable "sub_Protected" {}
 
-variable "sub_Internal" {
-  description = "protected subnet"
-}
+variable "sub_External" {}
 
-variable "sub_Storage" {
-  description = "protected subnet"
-}
+variable "sub_Internal" {}
 
-variable "sub_VirtualDesktop" {
-  description = "protected subnet"
-}
+variable "sub_Storage" {}
+
+variable "sub_VirtualDesktop" {}
 
 variable "sub_Server" {}
 
-variable "rgname_networking" {
-}
+variable "rgname_networking" {}
 
 variable "internal_next_hop" {}
 

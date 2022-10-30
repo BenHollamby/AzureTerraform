@@ -11,6 +11,7 @@ module "resourcegroups" {
 module "storage" {
   source = "./Storage"
   location = var.location
+  rgname_networking = var.rgname_networking
   depends_on = [
     module.resourcegroups
   ]
