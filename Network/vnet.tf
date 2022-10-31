@@ -197,10 +197,6 @@ resource "azurerm_virtual_machine" "fgtvm" {
     storage_uri = var.primary_blob_endpoint
   }
 
-  tags = {
-    environment = "Terraform Demo"
-  }
-
   depends_on = [
     azurerm_subnet.ExternalSubnet,
     azurerm_route_table.routetable,

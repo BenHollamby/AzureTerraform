@@ -75,4 +75,17 @@ variable "external_next_hop" {
   default = "10.0.11.4"
 }
 
+// Firewall Management
+variable "External_NSG_Name" {
+  default = "NSG_Firewall_External"
+}
+
+variable "Firewall_Management_Port" {
+  default = "11443"
+}
+
+variable "SSL_VPN_Port" {
+  default = "9443"
+}
+
 // az vm image terms accept --publisher fortinet --offer fortinet_fortigate-vm_v5 --plan fortinet_fg-vm

@@ -40,10 +40,13 @@ module "vnet" {
 
 module "nsg" {
   source = "./Network/NSG"
+  External_NSG_Name = var.External_NSG_Name
   rgname_networking = var.rgname_networking
   location = var.location
   extnicid = module.vnet.FGT_EXT_NIC_ID
   external_next_hop = var.external_next_hop
+  Firewall_Management_Port = var.Firewall_Management_Port
+  SSL_VPN_Port = var.SSL_VPN_Port
   depends_on = [
     module.vnet
   ]
