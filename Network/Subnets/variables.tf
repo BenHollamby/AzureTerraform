@@ -1,6 +1,3 @@
-
-variable "vnet_address_space" {}
-
 variable "location" {}
 
 variable "sub_Protected" {}
@@ -15,10 +12,6 @@ variable "sub_VirtualDesktop" {}
 
 variable "sub_Server" {}
 
+variable "vnet_name" {}
+
 variable "rgname_networking" {}
-
-variable "internal_next_hop" {}
-
-variable "external_next_hop" {}
-
-

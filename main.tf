@@ -18,21 +18,43 @@ module "storage" {
 }
 
 module "vnet" {
-  source = "./Network"
-  vnet_address_space = var.vnet_address_space
+  source = "./Network/Vnet"
   location = var.location
-  sub_Protected = var.sub_Protected
-  sub_External = var.sub_External
-  sub_Internal = var.sub_Internal
-  sub_Storage = var.sub_Storage
-  sub_VirtualDesktop = var.sub_VirtualDesktop
-  sub_Server = var.sub_Server
-  internal_next_hop = var.internal_next_hop
-  external_next_hop = var.external_next_hop
+  vnet_address_space = var.vnet_address_space
   rgname_networking = var.rgname_networking
   depends_on = [
-    module.resourcegroups,
-    module.storage
+   module.resourcegroups 
+  ]
+}
+
+module "subnets" {
+  source = "./Network/Subnets"
+  rgname_networking = var.rgname_networking
+  vnet_name = module.vnet.vnetname
+  location = var.location
+  sub_External = var.sub_External
+  sub_Internal = var.sub_Internal
+  sub_Protected = var.sub_Protected
+  sub_Server = var.sub_Server
+  sub_Storage = var.sub_Storage
+  sub_VirtualDesktop = var.sub_VirtualDesktop
+  depends_on = [
+    module.vnet
+  ]
+}
+
+module "routetable" {
+  source = "./Network/Routetable"
+  location = var.location
+  rgname_networking = var.rgname_networking
+  internal_next_hop = var.internal_next_hop
+  external_next_hop = var.external_next_hop
+  Virtual_Desktop_Subnet_Id = module.subnets.Virtual_Desktop_Subnet_Id
+  Internal_Subnet_Id = module.subnets.Internal_Subnet_Id
+  Server_Subnet_Id = module.subnets.Server_Subnet_Id
+  Storage_Subnet_Id = module.subnets.Storage_Subnet_Id
+  depends_on = [
+    module.subnets
   ]
 }
 
@@ -47,6 +69,7 @@ module "nsg" {
   SSL_VPN_Port = var.SSL_VPN_Port
   depends_on = [
     module.vnet,
+    module.subnets,
     module.NetworkInterfaces
   ]
 }
@@ -55,8 +78,8 @@ module "NetworkInterfaces" {
   source = "./Network/NetworkInterfaces"
   location = var.location
   rgname_networking = var.rgname_networking
-  external_subnet_id = module.vnet.External_Subnet_Id
-  internal_subnet_id = module.vnet.Internal_Subnet_Id
+  external_subnet_id = module.subnets.External_Subnet_Id
+  internal_subnet_id = module.subnets.Internal_Subnet_Id
   depends_on = [
     module.vnet
   ]
@@ -72,9 +95,10 @@ module "fortigate" {
   
   depends_on = [
     module.resourcegroups,
+    module.storage,
     module.vnet,
+    module.subnets,
     module.NetworkInterfaces,
-    module.nsg,
-    module.storage
+    module.nsg
   ]
 }
