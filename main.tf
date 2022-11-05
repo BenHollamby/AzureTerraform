@@ -30,8 +30,6 @@ module "vnet" {
   internal_next_hop = var.internal_next_hop
   external_next_hop = var.external_next_hop
   rgname_networking = var.rgname_networking
-  primary_blob_endpoint = module.storage.storageendpoint
-  
   depends_on = [
     module.resourcegroups,
     module.storage
@@ -43,11 +41,40 @@ module "nsg" {
   External_NSG_Name = var.External_NSG_Name
   rgname_networking = var.rgname_networking
   location = var.location
-  extnicid = module.vnet.FGT_EXT_NIC_ID
+  extnicid = module.NetworkInterfaces.FGT_EXT_NIC_ID
   external_next_hop = var.external_next_hop
   Firewall_Management_Port = var.Firewall_Management_Port
   SSL_VPN_Port = var.SSL_VPN_Port
   depends_on = [
+    module.vnet,
+    module.NetworkInterfaces
+  ]
+}
+
+module "NetworkInterfaces" {
+  source = "./Network/NetworkInterfaces"
+  location = var.location
+  rgname_networking = var.rgname_networking
+  external_subnet_id = module.vnet.External_Subnet_Id
+  internal_subnet_id = module.vnet.Internal_Subnet_Id
+  depends_on = [
     module.vnet
+  ]
+}
+
+module "fortigate" {
+  source = "./Network/Fortigate"
+  primary_blob_endpoint = module.storage.storageendpoint
+  location = var.location
+  rgname_networking = var.rgname_networking
+  fgt_ext_nic = module.NetworkInterfaces.FGT_EXT_NIC_ID
+  fgt_int_nic = module.NetworkInterfaces.FGT_INT_NIC_ID
+  
+  depends_on = [
+    module.resourcegroups,
+    module.vnet,
+    module.NetworkInterfaces,
+    module.nsg,
+    module.storage
   ]
 }

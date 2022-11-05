@@ -1,3 +1,9 @@
-output "FGT_EXT_NIC_ID" {
-  value = azurerm_network_interface.fgtextport1.id
+
+
+output "External_Subnet_Id" {
+  value = azurerm_subnet.ExternalSubnet.id
+}
+
+output "Internal_Subnet_Id" {
+  value = azurerm_subnet.InternalSubnet.id
 }

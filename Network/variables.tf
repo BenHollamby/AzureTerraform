@@ -21,10 +21,4 @@ variable "internal_next_hop" {}
 
 variable "external_next_hop" {}
 
-variable "bootstrap-fgtvm" {
-  type    = string
-  default = "./Network/fgtvm.conf"
-}
-
-variable "primary_blob_endpoint" {}
 
