@@ -1,47 +1,47 @@
 resource "azurerm_subnet" "ProtectedSubnet" {
-  name           = "sub_Protected"
-  resource_group_name = var.rgname_networking
-  address_prefixes = [var.sub_Protected]
-  virtual_network_name = var.vnet_name
+  name           = var.Protected_Subnet_Name
+  resource_group_name = var.RGName_Networking
+  address_prefixes = [var.sub_Protected_Address]
+  virtual_network_name = var.VNet_Name
 
 }
 
 resource "azurerm_subnet" "ExternalSubnet" {
-  name           = "sub_External"
-  resource_group_name = var.rgname_networking
-  address_prefixes = [var.sub_External]
-  virtual_network_name = var.vnet_name
+  name           = var.External_Subnet_Name
+  resource_group_name = var.RGName_Networking
+  address_prefixes = [var.sub_External_Address]
+  virtual_network_name = var.VNet_Name
   
 }
 
 resource "azurerm_subnet" "InternalSubnet" {
-  name           = "sub_Internal"
-  resource_group_name = var.rgname_networking
-  address_prefixes = [var.sub_Internal]
-  virtual_network_name = var.vnet_name
+  name           = var.Internal_Subnet_Name
+  resource_group_name = var.RGName_Networking
+  address_prefixes = [var.sub_Internal_Address]
+  virtual_network_name = var.VNet_Name
   
 }
 
 resource "azurerm_subnet" "StorageSubnet" {
-  name           = "sub_Storage"
-  resource_group_name = var.rgname_networking
-  address_prefixes = [var.sub_Storage]
-  virtual_network_name = var.vnet_name
+  name           = var.Storage_Subnet_Name
+  resource_group_name = var.RGName_Networking
+  address_prefixes = [var.sub_Storage_Address]
+  virtual_network_name = var.VNet_Name
   
 }
 
 resource "azurerm_subnet" "VirtualDesktopSubnet" {
-  name           = "sub_VirtualDesktop"
-  resource_group_name = var.rgname_networking
-  address_prefixes = [var.sub_VirtualDesktop]
-  virtual_network_name = var.vnet_name
+  name           = var.VirtualDesktop_Subnet_Name
+  resource_group_name = var.RGName_Networking
+  address_prefixes = [var.sub_VirtualDesktop_Address]
+  virtual_network_name = var.VNet_Name
   
 }
 
 resource "azurerm_subnet" "ServerSubnet" {
-  name           = "sub_Server"
-  resource_group_name = var.rgname_networking
-  address_prefixes = [var.sub_Server]
-  virtual_network_name = var.vnet_name
+  name           = var.Server_Subnet_Name
+  resource_group_name = var.RGName_Networking
+  address_prefixes = [var.sub_Server_Address]
+  virtual_network_name = var.VNet_Name
   
 }

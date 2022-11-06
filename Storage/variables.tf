@@ -1,3 +1,2 @@
-variable "location" {}
-
-variable "rgname_networking" {}
+variable "Location" {}
+variable "RGName_Networking" {}

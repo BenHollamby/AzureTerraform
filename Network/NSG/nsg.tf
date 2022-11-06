@@ -1,7 +1,7 @@
 resource "azurerm_network_security_group" "nsg" {
   name = var.External_NSG_Name
-  resource_group_name = var.rgname_networking
-  location = var.location
+  resource_group_name = var.RGName_Networking
+  location = var.Location
 
   security_rule {
     name                       = "All_Traffic"
@@ -12,7 +12,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "*"
     source_address_prefix      = "*"
-    destination_address_prefix = var.external_next_hop
+    destination_address_prefix = var.External_Next_Hop
   }
 
   security_rule {
@@ -24,7 +24,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = var.Firewall_Management_Port
     source_address_prefix      = "*"
-    destination_address_prefix = var.external_next_hop
+    destination_address_prefix = var.External_Next_Hop
   }
 
   security_rule {
@@ -36,7 +36,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "*"
     source_address_prefix      = "*"
-    destination_address_prefix = var.external_next_hop
+    destination_address_prefix = var.External_Next_Hop
   }
 
   security_rule {
@@ -48,7 +48,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = var.SSL_VPN_Port
     source_address_prefix      = "*"
-    destination_address_prefix = var.external_next_hop
+    destination_address_prefix = var.External_Next_Hop
   }
 
   security_rule {

@@ -1,17 +1,15 @@
-variable "location" {}
-
-variable "sub_Protected" {}
-
-variable "sub_External" {}
-
-variable "sub_Internal" {}
-
-variable "sub_Storage" {}
-
-variable "sub_VirtualDesktop" {}
-
-variable "sub_Server" {}
-
-variable "vnet_name" {}
-
-variable "rgname_networking" {}
+variable "Location" {}
+variable "sub_Protected_Address" {}
+variable "sub_External_Address" {}
+variable "sub_Internal_Address" {}
+variable "sub_Storage_Address" {}
+variable "sub_VirtualDesktop_Address" {}
+variable "sub_Server_Address" {}
+variable "VNet_Name" {}
+variable "RGName_Networking" {}
+variable "Protected_Subnet_Name" {}
+variable "External_Subnet_Name" {}
+variable "Internal_Subnet_Name" {}
+variable "Storage_Subnet_Name" {}
+variable "VirtualDesktop_Subnet_Name" {}
+variable "Server_Subnet_Name" {}

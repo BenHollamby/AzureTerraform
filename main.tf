@@ -1,17 +1,17 @@
 module "resourcegroups" {
   source = "./ResourceGroups"
-  location = var.location
-  rgname_backup = var.rgname_backup
-  rgname_networking = var.rgname_networking
-  rgname_server = var.rgname_server
-  rgname_storage = var.rgname_storage
-  rgname_virtualdesktop = var.rgname_virtualdesktop
+  Location = var.Location
+  RGName_Backup = var.RGName_Backup
+  RGName_Networking = var.RGName_Networking
+  RGName_Server = var.RGName_Server
+  RGName_Storage = var.RGName_Storage
+  RGName_VirtualDesktop = var.RGName_VirtualDesktop
 }
 
 module "storage" {
   source = "./Storage"
-  location = var.location
-  rgname_networking = var.rgname_networking
+  Location = var.Location
+  RGName_Networking = var.RGName_Networking
   depends_on = [
     module.resourcegroups
   ]
@@ -19,9 +19,10 @@ module "storage" {
 
 module "vnet" {
   source = "./Network/Vnet"
-  location = var.location
-  vnet_address_space = var.vnet_address_space
-  rgname_networking = var.rgname_networking
+  Location = var.Location
+  VNet_Name = var.VNet_Name
+  VNet_Address_Space = var.VNet_Address_Space
+  RGName_Networking = var.RGName_Networking
   depends_on = [
    module.resourcegroups 
   ]
@@ -29,15 +30,21 @@ module "vnet" {
 
 module "subnets" {
   source = "./Network/Subnets"
-  rgname_networking = var.rgname_networking
-  vnet_name = module.vnet.vnetname
-  location = var.location
-  sub_External = var.sub_External
-  sub_Internal = var.sub_Internal
-  sub_Protected = var.sub_Protected
-  sub_Server = var.sub_Server
-  sub_Storage = var.sub_Storage
-  sub_VirtualDesktop = var.sub_VirtualDesktop
+  RGName_Networking = var.RGName_Networking
+  VNet_Name = module.vnet.vnetname
+  Location = var.Location
+  External_Subnet_Name = var.External_Subnet_Name
+  sub_External_Address = var.sub_External_Address
+  Internal_Subnet_Name = var.Internal_Subnet_Name
+  sub_Internal_Address = var.sub_Internal_Address
+  Protected_Subnet_Name = var.Protected_Subnet_Name
+  sub_Protected_Address = var.sub_Protected_Address
+  Server_Subnet_Name = var.Server_Subnet_Name
+  sub_Server_Address = var.sub_Server_Address
+  Storage_Subnet_Name = var.Storage_Subnet_Name
+  sub_Storage_Address = var.sub_Storage_Address
+  VirtualDesktop_Subnet_Name = var.VirtualDesktop_Subnet_Name
+  sub_VirtualDesktop_Address = var.sub_VirtualDesktop_Address
   depends_on = [
     module.vnet
   ]
@@ -45,10 +52,12 @@ module "subnets" {
 
 module "routetable" {
   source = "./Network/Routetable"
-  location = var.location
-  rgname_networking = var.rgname_networking
-  internal_next_hop = var.internal_next_hop
-  external_next_hop = var.external_next_hop
+  Location = var.Location
+  Route_Table_Name = var.Route_Table_Name
+  Route_Name = var.Route_Name
+  RGName_Networking = var.RGName_Networking
+  Internal_Next_Hop = var.Internal_Next_Hop
+  External_Next_Hop = var.External_Next_Hop
   Virtual_Desktop_Subnet_Id = module.subnets.Virtual_Desktop_Subnet_Id
   Internal_Subnet_Id = module.subnets.Internal_Subnet_Id
   Server_Subnet_Id = module.subnets.Server_Subnet_Id
@@ -61,10 +70,10 @@ module "routetable" {
 module "nsg" {
   source = "./Network/NSG"
   External_NSG_Name = var.External_NSG_Name
-  rgname_networking = var.rgname_networking
-  location = var.location
+  RGName_Networking = var.RGName_Networking
+  Location = var.Location
   extnicid = module.NetworkInterfaces.FGT_EXT_NIC_ID
-  external_next_hop = var.external_next_hop
+  External_Next_Hop = var.External_Next_Hop
   Firewall_Management_Port = var.Firewall_Management_Port
   SSL_VPN_Port = var.SSL_VPN_Port
   depends_on = [
@@ -76,8 +85,16 @@ module "nsg" {
 
 module "NetworkInterfaces" {
   source = "./Network/NetworkInterfaces"
-  location = var.location
-  rgname_networking = var.rgname_networking
+  Location = var.Location
+  RGName_Networking = var.RGName_Networking
+  Fortigate_Public_IP_Name = var.Fortigate_Public_IP_Name
+  Fortigate_Public_IP_Allocation_Method = var.Fortigate_Public_IP_Allocation_Method
+  External_Fortigate_NIC_Name = var.External_Fortigate_NIC_Name
+  External_Fortigate_NIC_Config_Name = var.External_Fortigate_NIC_Config_Name
+  External_Fortigate_Private_Address_Allocation = var.External_Fortigate_Private_Address_Allocation
+  Internal_Fortigate_NIC_Name = var.Internal_Fortigate_NIC_Name
+  Internal_Fortigate_NIC_Config_Name = var.Internal_Fortigate_NIC_Config_Name
+  Internal_Fortigate_Private_Address_Allocation = var.Internal_Fortigate_Private_Address_Allocation
   external_subnet_id = module.subnets.External_Subnet_Id
   internal_subnet_id = module.subnets.Internal_Subnet_Id
   depends_on = [
@@ -88,11 +105,14 @@ module "NetworkInterfaces" {
 module "fortigate" {
   source = "./Network/Fortigate"
   primary_blob_endpoint = module.storage.storageendpoint
-  location = var.location
-  rgname_networking = var.rgname_networking
+  Location = var.Location
+  RGName_Networking = var.RGName_Networking
   fgt_ext_nic = module.NetworkInterfaces.FGT_EXT_NIC_ID
   fgt_int_nic = module.NetworkInterfaces.FGT_INT_NIC_ID
-  
+  Fortigate_Name = var.Fortigate_Name
+  Fortigate_Size = var.Fortigate_Size
+  Fortigate_Username = var.Fortigate_Username
+  Fortigate_Password = var.Fortigate_Password
   depends_on = [
     module.resourcegroups,
     module.storage,

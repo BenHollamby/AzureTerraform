@@ -1,13 +1,11 @@
-
-
 resource "azurerm_virtual_machine" "fgtvm" {
   count                        = 1
-  name                         = "fgtvm"
-  location                     = var.location
-  resource_group_name          = var.rgname_networking
+  name                         = var.Fortigate_Name
+  location                     = var.Location
+  resource_group_name          = var.RGName_Networking
   network_interface_ids        = [var.fgt_ext_nic, var.fgt_int_nic]
   primary_network_interface_id = var.fgt_ext_nic
-  vm_size                      = "Standard_F4s"
+  vm_size                      = var.Fortigate_Size
 
   delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
@@ -16,7 +14,7 @@ resource "azurerm_virtual_machine" "fgtvm" {
     publisher = "fortinet"
     offer     = "fortinet_fortigate-vm_v5"
     sku       = "fortinet_fg-vm"
-    version   = "7.2.2"
+    version   = "latest"
   }
 
   plan {
@@ -42,9 +40,9 @@ resource "azurerm_virtual_machine" "fgtvm" {
   }
 
   os_profile {
-    computer_name  = "fgtvm"
-    admin_username = "fortiadmin"
-    admin_password = "SuperSecure!"
+    computer_name  = var.Fortigate_Name
+    admin_username = var.Fortigate_Username
+    admin_password = var.Fortigate_Password
     custom_data = templatefile("${var.bootstrap-fgtvm}", {
       type         = "byol"
     })

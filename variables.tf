@@ -1,91 +1,186 @@
-// RESOURCE GROUPS
-variable "rgname_backup" {
-  default = "RG_Backup"
+// LOCATION
+variable "Location" {
+  description = "Location of Resources"
+  default     = "australiasoutheast" 
 }
 
-variable "rgname_networking" {
-  default = "RG_Networking"
-}
-
-variable "rgname_server" {
-  default = "RG_Server"
-}
-
-variable "rgname_storage" {
-  default = "RG_Storage"
-}
-
-variable "rgname_virtualdesktop" {
-  default = "RG_VirtualDesktop"
-}
-
-variable "location" {
-    default     = "australiasoutheast"
-    description = "Location of Resources"
-}
-
-
-// VNET
-variable "vnet_address_space" {
+// VNET ADDRESS
+variable "VNet_Address_Space" {
   description = "VNet Address Space"
   default = ["10.0.0.0/16"]
 }
 
-
-// SUBNETS
-variable "sub_Protected" {
-  description = "Protected Subnet"
+// SUBNET ADDRESSES
+variable "sub_Protected_Address" {
+  description = "Protected Subnet Address Range"
   default = "10.0.10.0/24"
 }
-
-variable "sub_External" {
-  description = "External Subnet"
+variable "sub_External_Address" {
+  description = "External Subnet Address Range"
   default = "10.0.11.0/24"
 }
-
-variable "sub_Internal" {
-  description = "Internal Subnet"
+variable "sub_Internal_Address" {
+  description = "Internal Subnet Address Range"
   default = "10.0.12.0/24"
 }
-
-variable "sub_Storage" {
-  description = "Storage Subnet"
+variable "sub_Storage_Address" {
+  description = "Storage Subnet Address Range"
   default = "10.0.13.0/24"
 }
-
-variable "sub_VirtualDesktop" {
-  description = "Virtual Desktop Subnet"
+variable "sub_VirtualDesktop_Address" {
+  description = "Virtual Desktop Subnet Address Range"
   default = "10.0.14.0/24"
 }
-
-variable "sub_Server" {
-  description = "Server Subnet"
+variable "sub_Server_Address" {
+  description = "Server Subnet Address Range"
   default = "10.0.15.0/24"
 }
 
-
 // NEXT HOP
-variable "internal_next_hop" {
+variable "Internal_Next_Hop" {
   description = "Next Hop Internal Subnet"
   default = "10.0.12.4"
 }
-
-variable "external_next_hop" {
+variable "External_Next_Hop" {
   description = "Next Hop IP External Subnet"
   default = "10.0.11.4"
 }
+
+
+// RESOURCE GROUP NAMES
+variable "RGName_Backup" {
+  description = "Resource Group for Backups"
+  default = "RG_Backup"
+}
+variable "RGName_Networking" {
+  description = "Resource Group for Networking"
+  default = "RG_Networking"
+}
+variable "RGName_Server" {
+  description = "Resource Group for Servers"
+  default = "RG_Server"
+}
+variable "RGName_Storage" {
+  description = "Resource Group for Storage"
+  default = "RG_Storage"
+}
+variable "RGName_VirtualDesktop" {
+  description = "Resource Group for Azure Virtual Desktop"
+  default = "RG_VirtualDesktop"
+}
+
 
 // Firewall Management
 variable "External_NSG_Name" {
   default = "NSG_Firewall_External"
 }
-
 variable "Firewall_Management_Port" {
   default = "11443"
 }
-
 variable "SSL_VPN_Port" {
   default = "9443"
 }
 
+
+//VNET NAME
+variable "VNet_Name" {
+  description = "Name of Virtual Network"
+  default = "VN_Core"
+}
+
+
+// SUBNET NAMES
+variable "Protected_Subnet_Name" {
+  description = "Name of Protected Subnet"
+  default = "sub_Protected"
+}
+variable "External_Subnet_Name" {
+  description = "External Subnet Name"
+  default = "sub_External"
+}
+variable "Internal_Subnet_Name" {
+  description = "Internal Subnet Name"
+  default = "sub_Internal"
+}
+variable "Storage_Subnet_Name" {
+  description = "Storage Subnet Name"
+  default = "sub_Storage"  
+}
+variable "VirtualDesktop_Subnet_Name" {
+  description = "Azure Virutal Desktop Subnet Name"
+  default = "sub_VirtualDesktop"
+}
+variable "Server_Subnet_Name" {
+  description = "Server Subnet Name"
+  default = "sub_Server"
+}
+
+
+// ROUTE TABLE and ROUTE NAME
+variable "Route_Table_Name" {
+  description = "Name of Route Table"
+  default = "Route-Table"
+}
+variable "Route_Name" {
+  description = "Default Route Name"
+  default = "Default-Route"
+}
+
+// FORTIGATE PUBLIC IP NAME
+variable "Fortigate_Public_IP_Name" {
+  description = "Name of the Fortigate Public IP"
+  default = "Fortigate_Public_IP"
+}
+variable "Fortigate_Public_IP_Allocation_Method" {
+  description = "Allocation Method"
+  default = "Static"
+}
+
+// FORTIGATE EXTERNAL NIC
+variable "External_Fortigate_NIC_Name" {
+  description = "Fortigate External Network Interface Name"
+  default = "External_Fortigate_NIC"
+}
+variable "External_Fortigate_NIC_Config_Name" {
+  description = "Fortigate External NIC Configuration Name"
+  default = "External_IP_Config"
+}
+variable "External_Fortigate_Private_Address_Allocation" {
+  description = "External Private Address Allocation"
+  default = "Dynamic"
+}
+
+// FORTIGATE INTERNAL NIC
+variable "Internal_Fortigate_NIC_Name" {
+  description = "Fortigate Internal Network Interface Name"
+  default = "Internal_Fortigate_NIC"
+}
+variable "Internal_Fortigate_NIC_Config_Name" {
+  description = "Fortigate Internal NIC Configuration Name"
+  default = "Internal_IP_Config"
+}
+variable "Internal_Fortigate_Private_Address_Allocation" {
+  description = "Internal Private Address Allocation"
+  default = "Dynamic"
+}
+
+// FORTIGATE CONFIG
+variable "Fortigate_Name" {
+  description = "Name of the Fortigate VM and OS Profile Name"
+  default = "Fortigate-VM"
+}
+variable "Fortigate_Size" {
+  description = "CPU Type"
+  default = "Standard_F2"
+}
+variable "Fortigate_Username" {
+  description = "Fortigate Username"
+  sensitive = true
+  default = "fortiadmin"
+}
+variable "Fortigate_Password" {
+  description = "Fortigate Password"
+  sensitive = true
+  default = "SuperSecure!"
+}
 // az vm image terms accept --publisher fortinet --offer fortinet_fortigate-vm_v5 --plan fortinet_fg-vm

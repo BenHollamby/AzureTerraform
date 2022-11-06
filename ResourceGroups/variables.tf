@@ -1,11 +1,6 @@
-variable "rgname_backup" {}
-
-variable "rgname_networking" {}
-
-variable "rgname_server" {}
-
-variable "rgname_storage" {}
-
-variable "rgname_virtualdesktop" {}
-
-variable "location" {}
+variable "RGName_Backup" {}
+variable "RGName_Networking" {}
+variable "RGName_Server" {}
+variable "RGName_Storage" {}
+variable "RGName_VirtualDesktop" {}
+variable "Location" {}

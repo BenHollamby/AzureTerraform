@@ -1,13 +1,13 @@
 resource "azurerm_route_table" "routetable" {
-  name = "Route-Table"
-  location = var.location
-  resource_group_name = var.rgname_networking
+  name = var.Route_Table_Name
+  location = var.Location
+  resource_group_name = var.RGName_Networking
   disable_bgp_route_propagation = false
 
   route = [ {
     address_prefix = "0.0.0.0/0"
-    name = "default-route"
-    next_hop_in_ip_address = var.internal_next_hop
+    name = var.Route_Name
+    next_hop_in_ip_address = var.Internal_Next_Hop
     next_hop_type = "VirtualAppliance"
   } ]
 }
