@@ -119,6 +119,7 @@ module "fortigate" {
     module.vnet,
     module.subnets,
     module.NetworkInterfaces,
+    module.routetable,
     module.nsg
   ]
 }
