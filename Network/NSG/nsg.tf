@@ -4,15 +4,15 @@ resource "azurerm_network_security_group" "nsg" {
   location = var.Location
 
   security_rule {
-    name                       = "All_Traffic"
-    priority                   = 140
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = var.External_Next_Hop
+      name                       = "All_Traffic"
+      priority                   = 140
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "*"
+      source_address_prefix      = "*"
+      destination_address_prefix = var.External_Next_Hop
   }
 
   security_rule {
