@@ -40,4 +40,7 @@ resource "azurerm_backup_policy_vm" "backuppolicy" {
     weeks    = var.Yearly_Retention_Week
     months   = var.Yearly_Retention_Month
   }
+  depends_on = [
+    azurerm_recovery_services_vault.vault
+  ]
 }

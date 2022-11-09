@@ -1,0 +1,1 @@
+variable "Management_Group_Id" {}
