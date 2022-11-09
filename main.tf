@@ -123,3 +123,34 @@ module "fortigate" {
     module.nsg
   ]
 }
+
+module "managementgroups" {
+  source = "./Governance/ManagementGroups"
+  Root_Group = var.Root_Group
+  Production_Group = var.Production_Group
+}
+
+module "backup" {
+  source = "./Backup"
+  Azure_Recovery_Services_Vault_Name = var.Azure_Recovery_Services_Vault_Name
+  Location = var.Location
+  RGName_Backup = var.RGName_Backup
+  Storage_Mode_Type = var.Storage_Mode_Type
+  Backup_Policy_Name = var.Backup_Policy_Name
+  Time_Zone = var.Time_Zone
+  Backup_Frequency = var.Backup_Frequency
+  Backup_Time = var.Backup_Time
+  Daily_Retention = var.Daily_Retention
+  Weekly_Retention = var.Weekly_Retention
+  Weekly_Retention_Days = var.Weekly_Retention_Days
+  Monthly_Retention = var.Monthly_Retention
+  Monthly_Retention_Days = var.Monthly_Retention_Days
+  Monthly_Retention_Weeks = var.Monthly_Retention_Weeks
+  Yearly_Retention = var.Yearly_Retention
+  Yearly_Retention_Day = var.Yearly_Retention_Day
+  Yearly_Retention_Week = var.Yearly_Retention_Week
+  Yearly_Retention_Month = var.Yearly_Retention_Month
+  depends_on = [
+    module.resourcegroups
+  ]
+}

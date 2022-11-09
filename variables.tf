@@ -81,6 +81,17 @@ variable "SSL_VPN_Port" {
   default = "9443"
 }
 
+// MANAGEMENT GROUPS
+variable "Root_Group" {
+  description = "Root Management Group"
+  default = "Root Management Group"
+}
+variable "Production_Group" {
+  description = "Production Group for current subscription"
+  default = "Production Management Group"
+}
+
+
 
 //VNET NAME
 variable "VNet_Name" {
@@ -183,4 +194,75 @@ variable "Fortigate_Password" {
   sensitive = true
   default = "SuperSecure!"
 }
+
+
+
+// AZURE BACKUPS
+variable "Azure_Recovery_Services_Vault_Name" {
+  description = "Azure Recovery Services Vault Name"
+  default = "Prouction-Backups"
+}
+variable "Storage_Mode_Type" {
+  description = "Storage type of Vault"
+  default = "LocallyRedundant"
+}
+variable "Backup_Policy_Name" {
+  description = "Backup Policy Name"
+  default = "VM-Backup-Policy"
+}
+variable "Time_Zone" {
+  description = "Timezone for vault"
+  default = "New Zealand Standard Time"
+}
+variable "Backup_Frequency" {
+  description = "Frequency of backups"
+  default = "Daily"
+}
+variable "Backup_Time" {
+  description = "Time of frequency backup"
+  default = "23:00"
+}
+variable "Daily_Retention" {
+  description = "Number of daily backup retentions"
+  default = 10
+}
+variable "Weekly_Retention" {
+  description = "Number of weekly retentions"
+  default = 42
+}
+variable "Weekly_Retention_Days" {
+  description = "Weekly retention days"
+  default = ["Sunday", "Wednesday", "Friday", "Saturday"]
+}
+variable "Monthly_Retention" {
+  description = "Number of Monthly retention"
+  default = 7
+}
+variable "Monthly_Retention_Days" {
+  description = "Monthly retention days"
+  default = ["Sunday", "Wednesday"]
+}
+variable "Monthly_Retention_Weeks" {
+  description = "Monthly retention weeks"
+  default = ["First", "Last"]
+}
+variable "Yearly_Retention" {
+  description = "Yearly retention Count"
+  default = 7
+}
+variable "Yearly_Retention_Day" {
+  description = "Yearly retention day"
+  default = ["Sunday"]
+}
+variable "Yearly_Retention_Week" {
+  description = "Yearly retention week"
+  default = ["Last"]
+}
+variable "Yearly_Retention_Month" {
+  description = "Yearly retention month"
+  default = ["January"]
+}
+
+
+
 // az vm image terms accept --publisher fortinet --offer fortinet_fortigate-vm_v5 --plan fortinet_fg-vm
