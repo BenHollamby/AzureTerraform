@@ -158,6 +158,7 @@ module "backup" {
 module "policy" {
   source = "./Governance/Policies"
   Management_Group_Id = module.managementgroups.Management_Production_Group_Id
+  Location = var.Location
 }
 
 
