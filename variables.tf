@@ -68,6 +68,10 @@ variable "RGName_VirtualDesktop" {
   description = "Resource Group for Azure Virtual Desktop"
   default = "RG_VirtualDesktop"
 }
+variable "RGName_Automation" {
+  description = "Resource Group for Backups"
+  default = "RG_Automation"
+}
 
 
 // Firewall Management
@@ -263,6 +267,26 @@ variable "Yearly_Retention_Month" {
   default = ["January"]
 }
 
+//LOG ANALYTICS WORKSPACE
+variable "Log_Analytics_Name" {
+  description = "Name of Log Analytics Workspace"
+  default = "VM-Log-Analytics"
+}
+variable "SKU" {
+  description = "sku type"
+  default = "PerGB2018"
+}
+variable "Retention_In_Days" {
+  description = "Retention in days value"
+  default = 30
+}
+
+
+// AUTOMATION ACCOUNT
+variable "Automation_Account_Name" {
+  description = "Name of account"
+  default = "Automation-Account-01"
+}
 
 
 // az vm image terms accept --publisher fortinet --offer fortinet_fortigate-vm_v5 --plan fortinet_fg-vm

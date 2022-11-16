@@ -22,3 +22,8 @@ resource "azurerm_resource_group" "rgavd" {
   name = var.RGName_VirtualDesktop
   location = var.Location
 }
+
+resource "azurerm_resource_group" "rgautomation" {
+  name = var.RGName_Automation
+  location = var.Location
+}

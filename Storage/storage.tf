@@ -12,3 +12,11 @@ resource "azurerm_storage_account" "fgtstorageaccount" {
   account_replication_type = "LRS"
   account_tier             = "Standard"
 }
+
+resource "azurerm_log_analytics_workspace" "logworkspace" {
+  name = var.Log_Analytics_Name
+  location = var.Location
+  resource_group_name = var.RGName_Storage
+  sku = var.SKU
+  retention_in_days = var.Retention_In_Days
+}

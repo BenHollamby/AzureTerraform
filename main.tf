@@ -6,12 +6,16 @@ module "resourcegroups" {
   RGName_Server = var.RGName_Server
   RGName_Storage = var.RGName_Storage
   RGName_VirtualDesktop = var.RGName_VirtualDesktop
+  RGName_Automation = var.RGName_Automation
 }
 
 module "storage" {
   source = "./Storage"
   Location = var.Location
   RGName_Storage = var.RGName_Storage
+  Log_Analytics_Name = var.Log_Analytics_Name
+  SKU = var.SKU
+  Retention_In_Days = var.Retention_In_Days
   depends_on = [
     module.resourcegroups
   ]
@@ -162,4 +166,14 @@ module "policy" {
   policy = module.backup.AzureRM_Backup_Policy
 }
 
-
+module "automation" {
+  source = "./Automation"
+  Automation_Account_Name = var.Automation_Account_Name
+  Location = var.Location
+  RGName_Automation = var.RGName_Automation
+  RGName_Storage = var.RGName_Storage
+  Workspace_ID = module.storage.workspacereadaccessid
+  depends_on = [
+    module.resourcegroups
+  ]
+}
